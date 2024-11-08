@@ -1,0 +1,82 @@
+.list-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 10px;
+}
+.todo-list-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.items-card-container {
+  margin: 5px 10px 10px 10px;
+  border: 1px solid #fffe;
+  padding: 5px;
+  border-radius: 10px;
+}
+.item-card-details {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.items-card-body h6 {
+  margin: 3px;
+  padding: 5px;
+  text-align: start;
+  text-wrap: wrap;
+}
+.items-card-body {
+  display: flex;
+  align-items: center;
+}
+.item-card-img {
+  /* display: flex;
+    align-items: center;
+    justify-content: flex-start; */
+  height: 4rem;
+  width: 4rem;
+  display: flex;
+  align-items: center;
+}
+.no-image-icon {
+  height: 100%;
+  width: 100%;
+  border: 1px solid #fefefe;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.no-image-icon {
+  height: 100%;
+  width: 100%;
+  border: 1px solid #fefefe;
+  border-radius: 50px;
+  display: flex;
+  font-size: large;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-icon {
+  height: 100%;
+  width: 100%;
+  border: 1px solid #fefefe;
+  border-radius: 50px;
+}
+
+.item-description {
+  text-wrap: wrap;
+}
+.add-btn {
+  padding: 8px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.add-btn-container {
+  display: flex;
+  justify-content: end;
+  margin: 0px 20px;
+}
