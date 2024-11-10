@@ -25,18 +25,18 @@ export default function MyForm({ onRefresh }) {
   const onSubmit = async (data) => {
     // Prepare the form data
     console.log(data, imageBlob);
-
+    debugger
     const formData = new FormData();
     if (imageBlob) {
       formData.append("image", imageBlob, "uploaded_image.jpg");
     }
-    formData.append("tite", data?.title);
+    formData.append("title", data?.title);
     formData.append("description", data?.description);
 
     console.log("formData  --", formData);
 
     try {
-      const response = await todolistService.addTodoList(formData);
+      const response = todolistService.addTodoList(formData);
       console.log("Response:", response);
       onRefresh();
     } catch (error) {

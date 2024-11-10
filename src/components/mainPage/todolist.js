@@ -5,46 +5,10 @@ import MyForm from "../addPage/addpage";
 import todolistService from "../../api/todolist.service";
 import ReactPaginate from "react-paginate";
 
-function Todolist() {
+function Todolist({onRefresh}) {
   const SOCKET_SERVER_URL = process.env.REACT_APP_SOCKET_SERVER_URL;
 
-  const [todoLists, setTodoLists] = useState([
-    {
-      title: "Name",
-      description: "wewojewoemweowmemwoeowm",
-      image: "",
-    },
-    {
-      title: "Name",
-      description: "wewojewoemweowmemwoeowm",
-      image: "",
-    },
-    {
-      title: "Name",
-      description: "wewojewoemweowmemwoeowm",
-      image: "",
-    },
-    {
-      title: "Name",
-      description: "wewojewoemweowmemwoeowm",
-      image: "",
-    },
-    {
-      title: "Name",
-      description: "wewojewoemweowmemwoeowmdwdwdwwdwdwdwd",
-      image: "",
-    },
-    {
-      title: "Name",
-      description: "wewojewoemweowmemwoeowm",
-      image: "",
-    },
-    {
-      title: "Name",
-      description: "wewojewoemweowmemwoeowm",
-      image: "",
-    },
-  ]);
+  const [todoLists, setTodoLists] = useState([]);
 
   const [notification, setNotification] = useState([]);
   const [socket, setSocket] = useState(null);
@@ -53,25 +17,45 @@ function Todolist() {
 
   const [currentPage, setCurrentPage] = useState(0);
 
-  const pageCount = Math.ceil(todoLists.length / 4);
-
-  const displayedItems = todoLists.slice(
-    currentPage * 4,
-    (currentPage + 1) * 4
-  );
-
   useEffect(() => {
-    const socketInstance = io(SOCKET_SERVER_URL);
+    const socketInstance = io(SOCKET_SERVER_URL, {
+      transports: ["websocket","polling"], // Adding transports in case WebSocket is unavailable
+    });
     setSocket(socketInstance);
 
     socketInstance.on("receive_message", (newNotification) => {
       setNotification((prev) => [...prev, newNotification]);
     });
 
-    return () => {
-      socketInstance.disconnect();
-    };
   }, [SOCKET_SERVER_URL]);
+
+
+  // useEffect(() => {
+  //   debugger
+  //   const data = setTodoLists(todolistService.getTodoList());
+
+  //   // getDaysBetween(dateRange);
+  // }, []);
+
+  useEffect(() => {
+    todolistService.getTodoList()
+      .then((res) => {
+        debugger
+        const projectData = res.data.data;
+        setTodoLists(projectData ? projectData : []);
+      })
+      .catch((err) => {
+        console.error("Error", err);
+      });
+  }, [isTodoUpdated]);
+
+  // console.log('Response:' +JSON.stringify(todoLists))
+  const displayedItems = todoLists?.slice(
+    currentPage * 4,
+    (currentPage + 1) * 4
+  );
+
+  const pageCount = Math.ceil(todoLists.length / 4);
 
   const handlePageClick = (event) => {
     setCurrentPage(event.selected);
@@ -123,7 +107,15 @@ function Todolist() {
                 <tr className="items-card-container" key={index}>
                   <td>{item?.title}</td>
                   <td>{item?.description}</td>
-                  <td>{item?.title?.[0]}</td>
+                  <td>
+                    {item?.image ? (
+                      <img src={`http://localhost:3000/images/${item.image}`} alt="Item Image" className="image-icon"     style={{ width: '150px', height: '150px', objectFit: 'contain' }} 
+ 
+                      />
+                    ) : (
+                      <div className="no-image-icon">{item?.image}</div>
+                    )}
+                  </td>
                   {/* <div className="items-card-body">
                 <div className="item-card-img">
                   {item?.image ? (

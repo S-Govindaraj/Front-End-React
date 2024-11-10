@@ -4,20 +4,21 @@ const apiKey = process.env.REACT_APP_API_TOKEN;
 
 class ToDoListAPI {
   getTodoList() {
-    return axios.get(API_SERVER_URL + "/todos", {
+    console.log('Token: ' +apiKey)
+    return axios.get(API_SERVER_URL + `/todos?isCompleted=0`, {
       headers: {
         session: apiKey,
-        header: { Authorization: "Bearer " + apiKey },
+        Authorization:   "Bearer " + apiKey ,
       },
     });
   }
 
   addTodoList(data) {
-    const payLoad = { ...data };
-    return axios.post(API_SERVER_URL + "/todos", payLoad, {
+    debugger
+    return axios.post(API_SERVER_URL + "/todos", data, {
       headers: {
         session: apiKey,
-        header: { Authorization: "Bearer " + apiKey },
+        Authorization:   "Bearer " + apiKey ,
       },
     });
   }
